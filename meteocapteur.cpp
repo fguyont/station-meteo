@@ -197,7 +197,6 @@ MeteoCapteur::MeteoCapteur()
         printf("Temperature in Fahrenheit : %.2f F \n", fTemp);
         printf("Pressure : %.2f hPa \n", pressure);
         printf("Relative Humidity : %.2f RH \n", humidity);
-
         */
 
 

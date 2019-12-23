@@ -97,7 +97,7 @@
      <rect>
       <x>140</x>
       <y>90</y>
-      <width>51</width>
+      <width>60</width>
       <height>30</height>
      </rect>
     </property>
@@ -107,7 +107,7 @@
      <rect>
       <x>140</x>
       <y>140</y>
-      <width>50</width>
+      <width>60</width>
       <height>30</height>
      </rect>
     </property>
@@ -130,7 +130,7 @@
      <rect>
       <x>140</x>
       <y>190</y>
-      <width>50</width>
+      <width>60</width>
       <height>30</height>
      </rect>
     </property>
@@ -153,7 +153,7 @@
      <rect>
       <x>140</x>
       <y>240</y>
-      <width>50</width>
+      <width>60</width>
       <height>30</height>
      </rect>
     </property>
@@ -176,7 +176,7 @@
      <rect>
       <x>140</x>
       <y>290</y>
-      <width>50</width>
+      <width>60</width>
       <height>30</height>
      </rect>
     </property>
@@ -194,12 +194,12 @@
      <string>Température</string>
     </property>
    </widget>
-   <widget class="QTextBrowser" name="txtTemp_2">
+   <widget class="QTextBrowser" name="txtTempExt">
     <property name="geometry">
      <rect>
       <x>680</x>
       <y>90</y>
-      <width>51</width>
+      <width>60</width>
       <height>30</height>
      </rect>
     </property>
@@ -217,12 +217,12 @@
      <string>Pression</string>
     </property>
    </widget>
-   <widget class="QTextBrowser" name="txtPres_2">
+   <widget class="QTextBrowser" name="txtPresExt">
     <property name="geometry">
      <rect>
       <x>680</x>
       <y>140</y>
-      <width>50</width>
+      <width>60</width>
       <height>30</height>
      </rect>
     </property>
@@ -240,12 +240,12 @@
      <string>Humidité</string>
     </property>
    </widget>
-   <widget class="QTextBrowser" name="txtHum_2">
+   <widget class="QTextBrowser" name="txtHumExt">
     <property name="geometry">
      <rect>
       <x>680</x>
       <y>190</y>
-      <width>50</width>
+      <width>60</width>
       <height>30</height>
      </rect>
     </property>
@@ -263,12 +263,12 @@
      <string>Temp Max</string>
     </property>
    </widget>
-   <widget class="QTextBrowser" name="txtTempMax_2">
+   <widget class="QTextBrowser" name="txtTempMaxExt">
     <property name="geometry">
      <rect>
       <x>680</x>
       <y>240</y>
-      <width>50</width>
+      <width>60</width>
       <height>30</height>
      </rect>
     </property>
@@ -286,14 +286,50 @@
      <string>Temp Min</string>
     </property>
    </widget>
-   <widget class="QTextBrowser" name="txtTempMin_2">
+   <widget class="QTextBrowser" name="txtTempMinExt">
     <property name="geometry">
      <rect>
       <x>680</x>
       <y>290</y>
-      <width>50</width>
+      <width>60</width>
       <height>30</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblVille">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>90</y>
+      <width>62</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Ville</string>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="txtDiffTemp">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>340</y>
+      <width>60</width>
+      <height>30</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>340</y>
+      <width>141</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Différence T int/ext</string>
     </property>
    </widget>
   </widget>
