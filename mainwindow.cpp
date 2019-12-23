@@ -46,7 +46,7 @@ MainWindow::MainWindow(QWidget *parent)
      * l'adresse du site, mot cle weather, la ville, l'abréviation du pays,
      * ma clé api, l'unité celcius et la langue*/
 
-   QNetworkRequest request(QUrl("https://api.openweathermap.org/data/2.5/weather?q=Bordeaux,FR&appid=30cee15a222b2ecc72642bae79b29814&units=metric&lang=FR"));
+   QNetworkRequest request(QUrl("https://api.openweathermap.org/data/2.5/weather?q=tignes,FR&appid=30cee15a222b2ecc72642bae79b29814&units=metric&lang=FR"));
 
    // Pour mettre l'entete en http (Pour QNetworkReply)
 
@@ -138,6 +138,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     /**** Et enfin on va faire une boucle pour parcourir et afficher toutes les informations ****/
 
+    QPixmap pix;
+
     // boucle pour le tableau weather
 
     for (int var = 0; var < weatherArray.count(); ++var)
@@ -167,6 +169,28 @@ MainWindow::MainWindow(QWidget *parent)
         /* On affiche la valeur de l'object description tout en le convertissant
          * en chaine de caractère via la méthode toString */
         qDebug() << "Description : " << obj["description"].toString();
+        ui->lblDesc->setText(obj["description"].toString());
+
+        if (obj["description"].toString()=="couvert" || obj["description"].toString()=="nuageux") {
+            pix = QPixmap (":/icones/clouds.png");
+        }
+        if (obj["description"].toString()=="brume") {
+            pix = QPixmap (":/icones/mist.png");
+        }
+        if (obj["description"].toString()=="ciel dégagé") {
+            pix = QPixmap (":/icones/clear.png");
+        }
+        if (obj["description"].toString()=="orageux") {
+            pix = QPixmap (":/icones/thunder.png");
+        }
+        if (obj["description"].toString().contains("pluie")) {
+            pix = QPixmap (":/icones/rain.png");
+        }
+        if (obj["description"].toString().contains("neige")) {
+            pix = QPixmap (":/icones/snow.png");
+        }
+
+        ui->lblClim->setPixmap(pix);
     }
 
     /* On affiche les valeurs que l'on souhaite de l'object main tout en le convertissant
@@ -193,6 +217,8 @@ MainWindow::MainWindow(QWidget *parent)
     }
 
     ui->txtDiffTemp->setText(QString::number(diffTemp, 'f', 1));
+
+
 
 
 }

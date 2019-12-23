@@ -32,3 +32,6 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /home/pi/$${TARGET}
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    images.qrc

@@ -13,12 +13,15 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(155, 195, 255);</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QLabel" name="lblDateHeure">
     <property name="geometry">
      <rect>
-      <x>240</x>
-      <y>50</y>
+      <x>510</x>
+      <y>10</y>
       <width>281</width>
       <height>20</height>
      </rect>
@@ -300,7 +303,7 @@
     <property name="geometry">
      <rect>
       <x>350</x>
-      <y>90</y>
+      <y>50</y>
       <width>62</width>
       <height>20</height>
      </rect>
@@ -330,6 +333,38 @@
     </property>
     <property name="text">
      <string>Différence T int/ext</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblDesc">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>300</y>
+      <width>161</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Description</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblClim">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>100</y>
+      <width>200</width>
+      <height>180</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Image</string>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
   </widget>
