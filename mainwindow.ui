@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>1258</width>
     <height>600</height>
    </rect>
   </property>
@@ -14,20 +14,20 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(155, 195, 255);</string>
+   <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="lblDateHeure">
+   <widget class="QLabel" name="lblDate">
     <property name="geometry">
      <rect>
-      <x>510</x>
+      <x>10</x>
       <y>10</y>
       <width>281</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>Date &amp; heure</string>
+     <string>Date</string>
     </property>
    </widget>
    <widget class="QLabel" name="lblTemp">
@@ -35,7 +35,7 @@
      <rect>
       <x>40</x>
       <y>100</y>
-      <width>90</width>
+      <width>121</width>
       <height>20</height>
      </rect>
     </property>
@@ -56,20 +56,20 @@
      <string>Pression</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
+   <widget class="QLabel" name="lblTitre">
     <property name="geometry">
      <rect>
-      <x>320</x>
-      <y>10</y>
-      <width>101</width>
-      <height>20</height>
+      <x>280</x>
+      <y>0</y>
+      <width>191</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>Station météo</string>
+     <string>Projet Station Météo</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_3">
+   <widget class="QLabel" name="lblInt">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -82,7 +82,7 @@
      <string>Mesures intérieures</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_4">
+   <widget class="QLabel" name="lblExt">
     <property name="geometry">
      <rect>
       <x>560</x>
@@ -98,7 +98,7 @@
    <widget class="QTextBrowser" name="txtTemp">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>180</x>
       <y>90</y>
       <width>60</width>
       <height>30</height>
@@ -108,7 +108,7 @@
    <widget class="QTextBrowser" name="txtPres">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>180</x>
       <y>140</y>
       <width>60</width>
       <height>30</height>
@@ -131,7 +131,7 @@
    <widget class="QTextBrowser" name="txtHum">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>180</x>
       <y>190</y>
       <width>60</width>
       <height>30</height>
@@ -154,7 +154,7 @@
    <widget class="QTextBrowser" name="txtTempMax">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>180</x>
       <y>240</y>
       <width>60</width>
       <height>30</height>
@@ -177,19 +177,19 @@
    <widget class="QTextBrowser" name="txtTempMin">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>180</x>
       <y>290</y>
       <width>60</width>
       <height>30</height>
      </rect>
     </property>
    </widget>
-   <widget class="QLabel" name="lblTemp_2">
+   <widget class="QLabel" name="lblTempExt">
     <property name="geometry">
      <rect>
       <x>560</x>
       <y>100</y>
-      <width>90</width>
+      <width>131</width>
       <height>20</height>
      </rect>
     </property>
@@ -200,14 +200,14 @@
    <widget class="QTextBrowser" name="txtTempExt">
     <property name="geometry">
      <rect>
-      <x>680</x>
+      <x>720</x>
       <y>90</y>
       <width>60</width>
       <height>30</height>
      </rect>
     </property>
    </widget>
-   <widget class="QLabel" name="lblPres_2">
+   <widget class="QLabel" name="lblPresExt">
     <property name="geometry">
      <rect>
       <x>560</x>
@@ -223,14 +223,14 @@
    <widget class="QTextBrowser" name="txtPresExt">
     <property name="geometry">
      <rect>
-      <x>680</x>
+      <x>720</x>
       <y>140</y>
       <width>60</width>
       <height>30</height>
      </rect>
     </property>
    </widget>
-   <widget class="QLabel" name="lblHum_2">
+   <widget class="QLabel" name="lblHumExt">
     <property name="geometry">
      <rect>
       <x>560</x>
@@ -246,14 +246,14 @@
    <widget class="QTextBrowser" name="txtHumExt">
     <property name="geometry">
      <rect>
-      <x>680</x>
+      <x>720</x>
       <y>190</y>
       <width>60</width>
       <height>30</height>
      </rect>
     </property>
    </widget>
-   <widget class="QLabel" name="lblTempMax_2">
+   <widget class="QLabel" name="lblTempMaxExt">
     <property name="geometry">
      <rect>
       <x>560</x>
@@ -269,14 +269,14 @@
    <widget class="QTextBrowser" name="txtTempMaxExt">
     <property name="geometry">
      <rect>
-      <x>680</x>
+      <x>720</x>
       <y>240</y>
       <width>60</width>
       <height>30</height>
      </rect>
     </property>
    </widget>
-   <widget class="QLabel" name="lblTempMin_2">
+   <widget class="QLabel" name="lblTempMinExt">
     <property name="geometry">
      <rect>
       <x>560</x>
@@ -292,7 +292,7 @@
    <widget class="QTextBrowser" name="txtTempMinExt">
     <property name="geometry">
      <rect>
-      <x>680</x>
+      <x>720</x>
       <y>290</y>
       <width>60</width>
       <height>30</height>
@@ -304,7 +304,7 @@
      <rect>
       <x>350</x>
       <y>50</y>
-      <width>62</width>
+      <width>181</width>
       <height>20</height>
      </rect>
     </property>
@@ -322,7 +322,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLabel" name="label_2">
+   <widget class="QLabel" name="lblDiff">
     <property name="geometry">
      <rect>
       <x>220</x>
@@ -351,11 +351,14 @@
    <widget class="QLabel" name="lblClim">
     <property name="geometry">
      <rect>
-      <x>270</x>
+      <x>310</x>
       <y>100</y>
       <width>200</width>
       <height>180</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(85, 150, 247);</string>
     </property>
     <property name="text">
      <string>Image</string>
@@ -367,13 +370,234 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
+   <widget class="QComboBox" name="cboChoixVille">
+    <property name="geometry">
+     <rect>
+      <x>910</x>
+      <y>50</y>
+      <width>251</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>Paris</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Sarcelles</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Aubervilliers</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Grigny</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Aulnay-Sous-Bois</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>La-Courneuve</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Marseille</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Lille</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Annecy</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLabel" name="lblHeure">
+    <property name="geometry">
+     <rect>
+      <x>560</x>
+      <y>10</y>
+      <width>171</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Heure</string>
+    </property>
+   </widget>
+   <widget class="QFontComboBox" name="cboPolice">
+    <property name="geometry">
+     <rect>
+      <x>910</x>
+      <y>370</y>
+      <width>238</width>
+      <height>28</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>910</x>
+      <y>130</y>
+      <width>173</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QRadioButton" name="rbCel">
+       <property name="text">
+        <string>Celcius</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="rbFah">
+       <property name="text">
+        <string>Fahrenheit</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>910</x>
+      <y>180</y>
+      <width>198</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QRadioButton" name="rbH12">
+       <property name="text">
+        <string>Heure 12h</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="rbH24">
+       <property name="text">
+        <string>Heure 24h</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>910</x>
+      <y>230</y>
+      <width>156</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="QRadioButton" name="rbFra">
+       <property name="text">
+        <string>Français</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="rbEng">
+       <property name="text">
+        <string>English</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>910</x>
+      <y>280</y>
+      <width>115</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <item>
+      <widget class="QRadioButton" name="rbJour">
+       <property name="text">
+        <string>Jour</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="rbNuit">
+       <property name="text">
+        <string>Nuit</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QLabel" name="lblChoixVille">
+    <property name="geometry">
+     <rect>
+      <x>910</x>
+      <y>20</y>
+      <width>141</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Choix de la ville</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblPara">
+    <property name="geometry">
+     <rect>
+      <x>910</x>
+      <y>100</y>
+      <width>81</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Paramètres</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblChoixPolice">
+    <property name="geometry">
+     <rect>
+      <x>910</x>
+      <y>340</y>
+      <width>141</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Choix de la police</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>1258</width>
      <height>25</height>
     </rect>
    </property>

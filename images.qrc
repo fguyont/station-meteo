@@ -11,4 +11,8 @@
         <file>brokenclouds.png</file>
         <file>rain.png</file>
     </qresource>
+    <qresource prefix="/bg">
+        <file>jour.jpg</file>
+        <file>nuit.jpeg</file>
+    </qresource>
 </RCC>

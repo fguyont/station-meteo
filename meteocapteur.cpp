@@ -196,8 +196,8 @@ MeteoCapteur::MeteoCapteur()
         /*printf("Temperature in Celsius : %.2f C \n", );
         printf("Temperature in Fahrenheit : %.2f F \n", fTemp);
         printf("Pressure : %.2f hPa \n", pressure);
-        printf("Relative Humidity : %.2f RH \n", humidity);
-        */
+        printf("Relative Humidity : %.2f RH \n", humidity);*/
+
 
 
 
@@ -229,3 +229,4 @@ float MeteoCapteur::getHumidity()
 {
     return this->humidity;
 }
+

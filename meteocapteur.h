@@ -41,4 +41,4 @@ public:
 
 };
 
-#endif // METEOCAPTEUR_H
+#endif  METEOCAPTEUR_H
