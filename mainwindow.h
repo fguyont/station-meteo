@@ -39,6 +39,10 @@ private slots:
 
     void on_rbFra_clicked();
 
+    void setFrench();
+
+    void setEnglish();
+
     void update();
 
 private:

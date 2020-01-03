@@ -48,12 +48,12 @@
      <rect>
       <x>40</x>
       <y>150</y>
-      <width>90</width>
+      <width>111</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>Pression</string>
+     <string>Pression (hPa)</string>
     </property>
    </widget>
    <widget class="QLabel" name="lblTitre">
@@ -125,7 +125,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Humidité</string>
+     <string>Humidité (%)</string>
     </property>
    </widget>
    <widget class="QTextBrowser" name="txtHum">
@@ -133,52 +133,6 @@
      <rect>
       <x>180</x>
       <y>190</y>
-      <width>60</width>
-      <height>30</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="lblTempMax">
-    <property name="geometry">
-     <rect>
-      <x>40</x>
-      <y>250</y>
-      <width>90</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Temp Max</string>
-    </property>
-   </widget>
-   <widget class="QTextBrowser" name="txtTempMax">
-    <property name="geometry">
-     <rect>
-      <x>180</x>
-      <y>240</y>
-      <width>60</width>
-      <height>30</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="lblTempMin">
-    <property name="geometry">
-     <rect>
-      <x>40</x>
-      <y>300</y>
-      <width>90</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Temp Min</string>
-    </property>
-   </widget>
-   <widget class="QTextBrowser" name="txtTempMin">
-    <property name="geometry">
-     <rect>
-      <x>180</x>
-      <y>290</y>
       <width>60</width>
       <height>30</height>
      </rect>
@@ -212,12 +166,12 @@
      <rect>
       <x>560</x>
       <y>150</y>
-      <width>90</width>
+      <width>101</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>Pression</string>
+     <string>Pression (hPa)</string>
     </property>
    </widget>
    <widget class="QTextBrowser" name="txtPresExt">
@@ -240,7 +194,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Humidité</string>
+     <string>Humidité (%)</string>
     </property>
    </widget>
    <widget class="QTextBrowser" name="txtHumExt">
@@ -325,14 +279,14 @@
    <widget class="QLabel" name="lblDiff">
     <property name="geometry">
      <rect>
-      <x>220</x>
+      <x>190</x>
       <y>340</y>
-      <width>141</width>
+      <width>111</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>Différence T int/ext</string>
+     <string>Diff T int/ext</string>
     </property>
    </widget>
    <widget class="QLabel" name="lblDesc">
@@ -589,6 +543,71 @@
     </property>
     <property name="text">
      <string>Choix de la police</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblUnitTemp">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>100</y>
+      <width>62</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblUnitTempExt">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>100</y>
+      <width>62</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblUnitTempMaxExt">
+    <property name="geometry">
+     <rect>
+      <x>630</x>
+      <y>250</y>
+      <width>62</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblUnitTempMinExt">
+    <property name="geometry">
+     <rect>
+      <x>640</x>
+      <y>300</y>
+      <width>62</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblUnitDiffTemp">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>340</y>
+      <width>62</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
     </property>
    </widget>
   </widget>

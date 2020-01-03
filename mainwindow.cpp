@@ -10,6 +10,8 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QMainWindow>
 
 using namespace std;
 
@@ -17,10 +19,10 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-   // QString sDate = QDateTime::currentDateTime().toString("dddd dd MMMM yyyy");
+    QString sDate = QDateTime::currentDateTime().toString("dddd dd MMMM yyyy");
 
     MeteoCapteur *meteoCapteur = new MeteoCapteur;
-    meteoCapteur->initMesures();
+   // meteoCapteur->initMesures();
 
     float tempC = meteoCapteur->getCTemp();
 
@@ -34,10 +36,14 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     ui->rbCel->setChecked(true);
     ui->rbH24->setChecked(true);
+    ui->lblHeure->setText(QDateTime::currentDateTime().toString("h:mm:ss"));
     ui->rbFra->setChecked(true);
-   // ui->lblDate->setText(sDate);
+    setFrench();
+    ui->lblDate->setText(sDate);
+    ui->lblDate->setText(QDateTime::currentDateTime().toString("dddd dd MMMM yyyy"));
+
     ui->txtTemp->setText(QString::number(tempC, 'f', 1));
-  //  ui->txtTemp->setText(QString::number(tempC) + " " + QString::number(tempF) + " " +QString::number(hum) + " " +QString::number(pres) + " "  );
+    ui->txtTemp->setText(QString::number(tempC) + " " + QString::number(tempF) + " " +QString::number(hum) + " " +QString::number(pres) + " "  );
 
     ui->txtHum->setText(QString::number(hum, 'f', 1));
     ui->txtPres->setText(QString::number(pres, 'f', 1));
@@ -59,38 +65,31 @@ void MainWindow::update() {
     float hum = meteoCapteur->getHumidity();
     float pres = meteoCapteur->getPressure();
 
-    ui->txtTemp->setText(QString::number(tempC, 'f', 1));
+
     ui->txtHum->setText(QString::number(hum, 'f', 1));
     ui->txtPres->setText(QString::number(pres, 'f', 1));
-}
 
-
-MainWindow::~MainWindow()
-{
-    delete ui;
-}
-
-
-void MainWindow::on_cboChoixVille_currentTextChanged(const QString &arg1)
-{
-    qDebug() << arg1;
-
-    QString nomVille = arg1;
-    //QString nomVille = ui->cboChoixVille->currentText();
+    QString nomVille = ui->cboChoixVille->currentText();
 
     QString unite="";
     QString langue="FR";
 
     if (ui->rbCel->isChecked()) {
+        ui->txtTemp->setText(QString::number(tempC, 'f', 1));
+
         unite="metric";
-        ui->lblTempExt->setText("Temperature (C)");
-        ui->lblTempMaxExt->setText("Temp Max (C)");
-        ui->lblTempMinExt->setText("Temp Max (C)");
+        ui->lblUnitTempExt->setText("(C)");
+        ui->lblUnitTempMaxExt->setText("(C)");
+        ui->lblUnitTempMinExt->setText("(C)");
+        ui->lblUnitDiffTemp->setText("(C)");
     }
     else {
-        ui->lblTempExt->setText("Temperature (F)");
-        ui->lblTempMaxExt->setText("Temp Max (F)");
-        ui->lblTempMinExt->setText("Temp Max (F)");
+        ui->txtTemp->setText(QString::number(tempF, 'f', 1));
+
+        ui->lblUnitTempExt->setText("(F)");
+        ui->lblUnitTempMaxExt->setText("(F)");
+        ui->lblUnitTempMinExt->setText("(F)");
+        ui->lblUnitDiffTemp->setText("(F)");
     }
 
     if (ui->rbEng->isChecked()) {
@@ -144,7 +143,7 @@ void MainWindow::on_cboChoixVille_currentTextChanged(const QString &arg1)
 
     /* On affiche la taille du tableau */
 
-    qDebug() << "Taille du tableau récuperer de la requete : " << reponse.size();
+  //  qDebug() << "Taille du tableau récuperer de la requete : " << reponse.size();
 
 
     /**** GESTION DU JSON ****/
@@ -214,26 +213,26 @@ void MainWindow::on_cboChoixVille_currentTextChanged(const QString &arg1)
 
         // On fini par afficher les informations
 
-        qDebug() << "Ville : " << jsonObject["name"].toString();
+ //       qDebug() << "Ville : " << jsonObject["name"].toString();
         ui->lblVille->setText(jsonObject["name"].toString());
 
         /* On affiche la valeur de l'object icon tout en le convertissant
          * en chaine de caractère via la méthode toString */
-        qDebug() << "icone : " << obj["icon"].toString();
+ //       qDebug() << "icone : " << obj["icon"].toString();
 
         /* On affiche la valeur de l'object main tout en le convertissant
          * en chaine de caractère via la méthode toString */
-        qDebug() << "Temps : " << obj["main"].toString();
+   //     qDebug() << "Temps : " << obj["main"].toString();
 
         /* On affiche la valeur de l'object description tout en le convertissant
          * en chaine de caractère via la méthode toString */
-        qDebug() << "Description : " << obj["description"].toString();
+   //     qDebug() << "Description : " << obj["description"].toString();
         ui->lblDesc->setText(obj["description"].toString());
 
         if (obj["description"].toString().contains("couvert") || obj["description"].toString().contains("nuageux") || obj["description"].toString().contains("clouds")) {
             pix = QPixmap (":/icones/clouds.png");
         }
-        if (obj["description"].toString().contains("brume") || obj["description"].toString().contains("mist")) {
+        if (obj["description"].toString().contains("brume") || obj["description"].toString().contains("brouillard") || obj["description"].toString().contains("mist") || obj["description"].toString().contains("fog")) {
             pix = QPixmap (":/icones/mist.png");
         }
         if (obj["description"].toString().contains("dégagé") || obj["description"].toString().contains("clear")) {
@@ -254,28 +253,54 @@ void MainWindow::on_cboChoixVille_currentTextChanged(const QString &arg1)
 
     /* On affiche les valeurs que l'on souhaite de l'object main tout en le convertissant
      * en double via la méthode toDouble */
-    qDebug() << "Température actuelle : " << main["temp"].toDouble();
+ //   qDebug() << "Température actuelle : " << main["temp"].toDouble();
     ui->txtTempExt->setText(QString::number(main["temp"].toDouble(), 'f', 1));
-    qDebug() << "Température minimale : " << main["temp_min"].toDouble();
+ //   qDebug() << "Température minimale : " << main["temp_min"].toDouble();
     ui->txtTempMinExt->setText(QString::number(main["temp_min"].toDouble(), 'f', 1));
-    qDebug() << "Température maximale : " << main["temp_max"].toDouble();
+ //   qDebug() << "Température maximale : " << main["temp_max"].toDouble();
     ui->txtTempMaxExt->setText(QString::number(main["temp_max"].toDouble(), 'f', 1));
-    qDebug() << "Pression: " << main["pressure"].toDouble();
+ //   qDebug() << "Pression: " << main["pressure"].toDouble();
     ui->txtPresExt->setText(QString::number(main["pressure"].toDouble(), 'f', 1));
-    qDebug() << "Humidité : " << main["humidity"].toDouble();
+ //   qDebug() << "Humidité : " << main["humidity"].toDouble();
     ui->txtHumExt->setText(QString::number(main["humidity"].toDouble(), 'f', 1));
 
-    /*double diffTemp, tempExt;
+    double diffTemp, tempExt;
     tempExt = main["temp"].toDouble();
 
-    if (tempC > tempExt) {
-        diffTemp = tempC - tempExt;
-    }
-    else {
-        diffTemp = tempExt - tempC;
+    if (ui->rbCel->isChecked()) {
+
+        if (tempC > tempExt) {
+            diffTemp = tempC - tempExt;
+        }
+        else {
+            diffTemp = tempExt - tempC;
+        }
     }
 
-    ui->txtDiffTemp->setText(QString::number(diffTemp, 'f', 1));*/
+    else {
+        if (tempC > tempExt) {
+            diffTemp = tempF - tempExt;
+        }
+        else {
+            diffTemp = tempExt - tempF;
+        }
+    }
+    ui->txtDiffTemp->setText(QString::number(diffTemp, 'f', 1));
+
+}
+
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+
+void MainWindow::on_cboChoixVille_currentTextChanged(const QString &arg1)
+{
+ //   qDebug() << arg1;
+
+    update();
 
 }
 
@@ -291,12 +316,14 @@ void MainWindow::on_rbH24_clicked()
 
 void MainWindow::on_rbCel_clicked()
 {
-    ui->lblTemp->setText("Température (C)");
+    ui->lblUnitTemp->setText("(C)");
+    update();
 }
 
 void MainWindow::on_rbFah_clicked()
 {
-    ui->lblTemp->setText("Température (F)");
+    ui->lblUnitTemp->setText("(F)");
+    update();
 }
 
 void MainWindow::on_cboPolice_currentFontChanged(const QFont &f)
@@ -310,8 +337,6 @@ void MainWindow::on_cboPolice_currentFontChanged(const QFont &f)
     ui->lblTitre->setFont(f);
     ui->lblInt->setFont(f);
     ui->lblExt->setFont(f);
-    ui->lblTempMin->setFont(f);
-    ui->lblTempMax->setFont(f);
     ui->lblTemp->setFont(f);
     ui->lblTempExt->setFont(f);
     ui->lblPresExt->setFont(f);
@@ -338,34 +363,38 @@ void MainWindow::on_cboPolice_currentFontChanged(const QFont &f)
 
 void MainWindow::on_rbJour_clicked()
 {
-    this->setStyleSheet("color: blue;"
-                        "background-color: orange;"
-                        "selection-color: orange;"
-                        "selection-background-color: blue;");
+
+    QPixmap bkgnd(":/bg/jour.jpg");
+        bkgnd = bkgnd.scaled(this->size(), Qt::IgnoreAspectRatio);
+        QPalette palette;
+        palette.setBrush(QPalette::Background, bkgnd);
+        this->setPalette(palette);
 }
 
 void MainWindow::on_rbNuit_clicked()
 {
-    this->setStyleSheet("color: white;"
-                        "background-color: black;"
-                        "selection-color: white;"
-                        "selection-background-color: black;");
+
+   /* QPixmap bkgnd(":/bg/nuit.jpeg");
+        bkgnd = bkgnd.scaled(this->size(), Qt::IgnoreAspectRatio);
+        QPalette palette;
+        palette.setBrush(QPalette::Background, bkgnd);
+        this->setPalette(palette);*/
+    this->setStyleSheet("color-background:black");
+
 }
 
-void MainWindow::on_rbEng_clicked()
-{
+void MainWindow::setEnglish() {
     ui->lblVille->setText("City name");
-    ui->lblHum->setText("Humidity");
+    ui->lblHum->setText("Humidity (%)");
     ui->lblDate->setText(QLocale{QLocale::English}.toString(QDateTime::currentDateTime(), "dddd MMMM dd yyyy"));
-    ui->lblPres->setText("Pressure");
-    ui->lblHeure->setText("Hour");
+    ui->lblPres->setText("Pressure (hPa)");
     ui->lblTitre->setText("Meteo Station Project");
     ui->lblInt->setText("Indoor statements");
     ui->lblExt->setText("Outdoor statements");
     ui->lblTemp->setText("Temperature");
     ui->lblTempExt->setText("Temperature");
-    ui->lblPresExt->setText("Pressure");
-    ui->lblHumExt->setText("Humidity");
+    ui->lblPresExt->setText("Pressure (hPa)");
+    ui->lblHumExt->setText("Humidity (%)");
     ui->lblPara->setText("Settings");
     ui->lblChoixVille->setText("City choice");
     ui->lblChoixPolice->setText("Font choice");
@@ -373,22 +402,27 @@ void MainWindow::on_rbEng_clicked()
     ui->rbNuit->setText("Night");
     ui->rbH12->setText("12h clock");
     ui->rbH24->setText("24h clock");
+    ui->lblDiff->setText("In/Out Temp diff");
 }
 
-void MainWindow::on_rbFra_clicked()
+void MainWindow::on_rbEng_clicked()
 {
+    setEnglish();
+    update();
+}
+
+void MainWindow::setFrench() {
     ui->lblVille->setText("Nom ville");
-    ui->lblHum->setText("Humidité");
+    ui->lblHum->setText("Humidité (%)");
     ui->lblDate->setText(QDateTime::currentDateTime().toString("dddd dd MMMM yyyy"));
-    ui->lblPres->setText("Pression");
-    ui->lblHeure->setText("Heure");
+    ui->lblPres->setText("Pression (hPa)");
     ui->lblTitre->setText("Projet Station Météo");
     ui->lblInt->setText("Mesures intérieures");
     ui->lblExt->setText("Mesures extérieures");
     ui->lblTemp->setText("Température");
     ui->lblTempExt->setText("Température");
-    ui->lblPresExt->setText("Pression");
-    ui->lblHumExt->setText("Humidité");
+    ui->lblPresExt->setText("Pression (hPa)");
+    ui->lblHumExt->setText("Humidité (%)");
     ui->lblPara->setText("Paramètres");
     ui->lblChoixVille->setText("Choix de la ville");
     ui->lblChoixPolice->setText("Choix de la police");
@@ -396,4 +430,11 @@ void MainWindow::on_rbFra_clicked()
     ui->rbNuit->setText("Nuit");
     ui->rbH12->setText("Format 12h");
     ui->rbH24->setText("Format 24h");
+    ui->lblDiff->setText("Diff Temp Int/Ext");
+}
+
+void MainWindow::on_rbFra_clicked()
+{
+    setFrench();
+    update();
 }
