@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1258</width>
-    <height>600</height>
+    <width>1260</width>
+    <height>800</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -269,8 +269,8 @@
    <widget class="QTextEdit" name="txtDiffTemp">
     <property name="geometry">
      <rect>
-      <x>370</x>
-      <y>340</y>
+      <x>180</x>
+      <y>240</y>
       <width>60</width>
       <height>30</height>
      </rect>
@@ -279,8 +279,8 @@
    <widget class="QLabel" name="lblDiff">
     <property name="geometry">
      <rect>
-      <x>190</x>
-      <y>340</y>
+      <x>40</x>
+      <y>250</y>
       <width>111</width>
       <height>20</height>
      </rect>
@@ -340,31 +340,6 @@
     </item>
     <item>
      <property name="text">
-      <string>Sarcelles</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Aubervilliers</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Grigny</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Aulnay-Sous-Bois</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>La-Courneuve</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
       <string>Marseille</string>
      </property>
     </item>
@@ -376,6 +351,41 @@
     <item>
      <property name="text">
       <string>Annecy</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Toulouse</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Strasbourg</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Lyon</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Nice</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Brest</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Bordeaux</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Ivry-sur-Seine</string>
      </property>
     </item>
    </widget>
@@ -587,7 +597,7 @@
    <widget class="QLabel" name="lblUnitTempMinExt">
     <property name="geometry">
      <rect>
-      <x>640</x>
+      <x>630</x>
       <y>300</y>
       <width>62</width>
       <height>20</height>
@@ -600,8 +610,8 @@
    <widget class="QLabel" name="lblUnitDiffTemp">
     <property name="geometry">
      <rect>
-      <x>290</x>
-      <y>340</y>
+      <x>130</x>
+      <y>250</y>
       <width>62</width>
       <height>20</height>
      </rect>
@@ -610,13 +620,24 @@
      <string/>
     </property>
    </widget>
+   <widget class="QWidget" name="verticalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>330</y>
+      <width>831</width>
+      <height>421</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout"/>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1258</width>
+     <width>1260</width>
      <height>25</height>
     </rect>
    </property>

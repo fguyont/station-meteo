@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QDateTime>
 #include "meteocapteur.h"
+#include "meteoapi.h"
 #include <QTimer>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
@@ -12,6 +13,14 @@
 #include <QJsonArray>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMainWindow>
+/*#include <QtCharts>
+#include <QChartView>
+#include <QSplineSeries>
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QMainWindow>
+#include <QtCharts/QCategoryAxis>
+#include <QtCharts/QChart>
+#include <QtCharts/QSplineSeries>*/
 
 using namespace std;
 
@@ -21,46 +30,32 @@ MainWindow::MainWindow(QWidget *parent)
 {
     QString sDate = QDateTime::currentDateTime().toString("dddd dd MMMM yyyy");
 
-    MeteoCapteur *meteoCapteur = new MeteoCapteur;
-   // meteoCapteur->initMesures();
-
-    float tempC = meteoCapteur->getCTemp();
-
-    float tempF = meteoCapteur->getFTemp();
-    float hum = meteoCapteur->getHumidity();
-    float pres = meteoCapteur->getPressure();
-
-
-
-
     ui->setupUi(this);
     ui->rbCel->setChecked(true);
     ui->rbH24->setChecked(true);
     ui->lblHeure->setText(QDateTime::currentDateTime().toString("h:mm:ss"));
     ui->rbFra->setChecked(true);
     setFrench();
+    ui->rbJour->setChecked(true);
+    setJour();
     ui->lblDate->setText(sDate);
     ui->lblDate->setText(QDateTime::currentDateTime().toString("dddd dd MMMM yyyy"));
 
-    ui->txtTemp->setText(QString::number(tempC, 'f', 1));
-    ui->txtTemp->setText(QString::number(tempC) + " " + QString::number(tempF) + " " +QString::number(hum) + " " +QString::number(pres) + " "  );
-
-    ui->txtHum->setText(QString::number(hum, 'f', 1));
-    ui->txtPres->setText(QString::number(pres, 'f', 1));
-
+    update();
 
     QTimer *timer = new QTimer(this);
-        connect(timer, SIGNAL(timeout()), this, SLOT(update()));
-        timer->start(60000);
+    connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+    timer->start(60000);
 
 
 }
 
 
 void MainWindow::update() {
-    MeteoCapteur *meteoCapteur = new MeteoCapteur;
-    float tempC = meteoCapteur->getCTemp();
 
+    MeteoCapteur *meteoCapteur = new MeteoCapteur;
+
+    float tempC = meteoCapteur->getCTemp();
     float tempF = meteoCapteur->getFTemp();
     float hum = meteoCapteur->getHumidity();
     float pres = meteoCapteur->getPressure();
@@ -78,6 +73,7 @@ void MainWindow::update() {
         ui->txtTemp->setText(QString::number(tempC, 'f', 1));
 
         unite="metric";
+        ui->lblUnitTemp->setText("(C)");
         ui->lblUnitTempExt->setText("(C)");
         ui->lblUnitTempMaxExt->setText("(C)");
         ui->lblUnitTempMinExt->setText("(C)");
@@ -85,7 +81,7 @@ void MainWindow::update() {
     }
     else {
         ui->txtTemp->setText(QString::number(tempF, 'f', 1));
-
+        ui->lblUnitTemp->setText("(F)");
         ui->lblUnitTempExt->setText("(F)");
         ui->lblUnitTempMaxExt->setText("(F)");
         ui->lblUnitTempMinExt->setText("(F)");
@@ -96,196 +92,97 @@ void MainWindow::update() {
         langue="ENG";
     }
 
-    QString urlReq="https://api.openweathermap.org/data/2.5/weather?q="+nomVille+",FR&appid=30cee15a222b2ecc72642bae79b29814&units="+unite+"&lang="+langue;
 
-    /**** CREATION DE LA REQUETE ****/
+    MeteoApi *meteoApi = new MeteoApi(nomVille, unite, langue);
+    ui->txtTempExt->setText(QString::number(meteoApi->getTemp(), 'f', 1));
+    ui->txtPresExt->setText(QString::number(meteoApi->getPressure(), 'f', 1));
+    ui->txtHumExt->setText(QString::number(meteoApi->getHumidity(), 'f', 1));
+    ui->txtTempMinExt->setText(QString::number(meteoApi->getTempMin(), 'f', 1));
+    ui->txtTempMaxExt->setText(QString::number(meteoApi->getTempMax(), 'f', 1));
+    ui->lblVille->setText(meteoApi->getNomVille());
+    ui->lblClim->setPixmap(meteoApi->getIcone());
+    ui->lblDesc->setText(meteoApi->getDescription());
 
-    /* D'après la documentation d'OpenWeatherMAp la requete Url comprend
-     * l'adresse du site, mot cle weather, la ville, l'abréviation du pays,
-     * ma clé api, l'unité celcius et la langue*/
+    double diff;
 
-   QNetworkRequest request(urlReq);
-
-   // Pour mettre l'entete en http (Pour QNetworkReply)
-
-  /* Pour cela on utilise la methode setHeader qui utilise */
-
-   request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-
-   /**** GESTION DE LA REQUETE ****/
-
-   /* La classe QNetworkAccessManager permet à l'application
-    * d'envoyer des demandes au réseau et de recevoir des réponses
-    * Ici on déclare manager le nom de la classe QNetworkAccessManager */
-
-    QNetworkAccessManager manager;
-
-    /* La classe QNetworkReply contient les données et les en-têtes d'une demande
-     * envoyée avec QNetworkAccessManager
-     * C'est pour cela que l'on a fait la ligne de code 38 request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-     * Ici on déclare reply le nom de la classe QNetworkReply
-     * Et on affecte le manager manager avec la methode get() par rapport à la requete request
-     * On met un .get() car c'est un pointeur */
-
-    QNetworkReply * reply = manager.get(request);
-
-    /* Tant que la requete n'est pas fini on bouclele processus de l'évenement  */
-    while(!reply->isFinished())
-    {
-        qApp->processEvents();
+    if (ui->rbCel->isChecked()){
+        diff = meteoCapteur->getCTemp() - meteoApi->getTemp();
     }
-
-    /* La classe QByteArray fournit un tableau d'octets
-     * Ici on déclare reponse le nom de la classe QByteArray
-     * Et on affecte le reply avec la methode readAll() */
-
-    QByteArray reponse = reply->readAll();
-
-    /* On affiche la taille du tableau */
-
-  //  qDebug() << "Taille du tableau récuperer de la requete : " << reponse.size();
-
-
-    /**** GESTION DU JSON ****/
-
-    /* La classe QJsonDocument permet de lire et d'écrire des documents JSON
-     * Ici on déclare jsonReponse le nom de la classe QJsonDocument
-     * Et on affecte le response via la methode statique fromJson() qui provient de QJsonDocument
-     * La methode statique fromJson() analyse json en tant que document JSON encodé en UTF-8 et
-     * crée un QJsonDocument à partir de celui-ci. Il renvoie un QJsonDocument valide (non nul)
-     * si l'analyse réussit. S'il échoue, le document renvoyé sera nul et
-     * la variable d' erreur facultative contiendra plus de détails sur l'erreur */
-
-    QJsonDocument jsonReponse = QJsonDocument::fromJson(reponse);
-
-    /* On affiche le JSON avec les methodes
-     * toVariant() qui provient de la classe QVariant qui agit comme une union pour les types de données Qt
-     * pour ici jsonReponse de type QJsonDocument et toString() de type QString
-     * et la methode toString() pour les mettre en chaine de caractère   */
-
-    jsonReponse.toVariant().toString();
-
-    /* Ici on planifie la suppression du retour de la requete */
-
-    reply->deleteLater();
-
-
-    /**** Tout d'abord on va convertir le document jsonReponse en objet ****/
-
-    /* La classe QJsonObject encapsule un objet JSON
-     * Ici on déclare jsonObject le nom de la classe QJsonObject
-     * Et on affecte le document jsonReponse via la méthode object() qui renvois le contenue de l'object */
-
-    QJsonObject jsonObject = jsonReponse.object();
-
-    /**** Ensuite on va convertir l'objet weather en tableau car dans la doc api l'objet weather est un tableau avec des clées et des valeurs ****/
-
-    /* La classe QJsonArray encapsule un tableau JSON
-     * Ici on déclare jsonArray le nom de la classe QJsonArray
-     * Et on affecte l'objet jsonObject via la méthode toArray() qui un tableau */
-
-    QJsonArray weatherArray = jsonObject["weather"].toArray();
-
-    /**** Ensuite on va convertir plusieurs objets en objet car dans la doc api ces objets sont d'autres objets avec des clées et des valeurs ****/
-
-    /* La classe QJsonObject encapsule un objet JSON
-     * Ici on déclare main le nom de la classe QJsonObject
-     * Et on affecte l'élément main de jsonObject via la méthode toObject() qui convertie l'élément en object */
-
-    QJsonObject main = jsonObject["main"].toObject();
-
-    /**** Et enfin on va faire une boucle pour parcourir et afficher toutes les informations ****/
-
-    QPixmap pix;
-
-    // boucle pour le tableau weather
-
-    for (int var = 0; var < weatherArray.count(); ++var)
-    {
-        // On commence par convertir l'indice de type tableau en object
-
-        /* La classe QJsonObject encapsule un objet JSON
-         * Ici on déclare obj le nom de la classe QJsonObject
-         * Et on affecte la valeur de l'indice du tableau jsonArray via la méthode toObject()
-         * qui convertie l'élément JSON en object */
-
-        QJsonObject obj = weatherArray[var].toObject();
-
-        // On fini par afficher les informations
-
- //       qDebug() << "Ville : " << jsonObject["name"].toString();
-        ui->lblVille->setText(jsonObject["name"].toString());
-
-        /* On affiche la valeur de l'object icon tout en le convertissant
-         * en chaine de caractère via la méthode toString */
- //       qDebug() << "icone : " << obj["icon"].toString();
-
-        /* On affiche la valeur de l'object main tout en le convertissant
-         * en chaine de caractère via la méthode toString */
-   //     qDebug() << "Temps : " << obj["main"].toString();
-
-        /* On affiche la valeur de l'object description tout en le convertissant
-         * en chaine de caractère via la méthode toString */
-   //     qDebug() << "Description : " << obj["description"].toString();
-        ui->lblDesc->setText(obj["description"].toString());
-
-        if (obj["description"].toString().contains("couvert") || obj["description"].toString().contains("nuageux") || obj["description"].toString().contains("clouds")) {
-            pix = QPixmap (":/icones/clouds.png");
-        }
-        if (obj["description"].toString().contains("brume") || obj["description"].toString().contains("brouillard") || obj["description"].toString().contains("mist") || obj["description"].toString().contains("fog")) {
-            pix = QPixmap (":/icones/mist.png");
-        }
-        if (obj["description"].toString().contains("dégagé") || obj["description"].toString().contains("clear")) {
-            pix = QPixmap (":/icones/clear.png");
-        }
-        if (obj["description"].toString().contains("orageux") || obj["description"].toString().contains("thunder")){
-            pix = QPixmap (":/icones/thunder.png");
-        }
-        if (obj["description"].toString().contains("pluie") || obj["description"].toString().contains("rain")){
-            pix = QPixmap (":/icones/rain.png");
-        }
-        if (obj["description"].toString().contains("neige") || obj["description"].toString().contains("snow")) {
-            pix = QPixmap (":/icones/snow.png");
-        }
-
-        ui->lblClim->setPixmap(pix);
-    }
-
-    /* On affiche les valeurs que l'on souhaite de l'object main tout en le convertissant
-     * en double via la méthode toDouble */
- //   qDebug() << "Température actuelle : " << main["temp"].toDouble();
-    ui->txtTempExt->setText(QString::number(main["temp"].toDouble(), 'f', 1));
- //   qDebug() << "Température minimale : " << main["temp_min"].toDouble();
-    ui->txtTempMinExt->setText(QString::number(main["temp_min"].toDouble(), 'f', 1));
- //   qDebug() << "Température maximale : " << main["temp_max"].toDouble();
-    ui->txtTempMaxExt->setText(QString::number(main["temp_max"].toDouble(), 'f', 1));
- //   qDebug() << "Pression: " << main["pressure"].toDouble();
-    ui->txtPresExt->setText(QString::number(main["pressure"].toDouble(), 'f', 1));
- //   qDebug() << "Humidité : " << main["humidity"].toDouble();
-    ui->txtHumExt->setText(QString::number(main["humidity"].toDouble(), 'f', 1));
-
-    double diffTemp, tempExt;
-    tempExt = main["temp"].toDouble();
-
-    if (ui->rbCel->isChecked()) {
-
-        if (tempC > tempExt) {
-            diffTemp = tempC - tempExt;
-        }
-        else {
-            diffTemp = tempExt - tempC;
-        }
-    }
-
     else {
-        if (tempC > tempExt) {
-            diffTemp = tempF - tempExt;
-        }
-        else {
-            diffTemp = tempExt - tempF;
-        }
+        diff = meteoCapteur->getFTemp() - meteoApi->getTemp();
     }
-    ui->txtDiffTemp->setText(QString::number(diffTemp, 'f', 1));
+    ui->txtDiffTemp->setText(QString::number(diff, 'f', 1));
+/*
+        QNetworkRequest requestPrevision(QUrl("https://api.openweathermap.org/data/2.5/forecast?q="+nomVille+",FR&appid=30cee15a222b2ecc72642bae79b29814&units=metric&lang=FR"));
+        requestPrevision.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+        QNetworkAccessManager manager;
+        QNetworkReply * reply = manager.get(requestPrevision);
+        while(!reply->isFinished())
+        {
+            qApp->processEvents();
+        }
+        QByteArray reponse = reply->readAll();
+        QJsonDocument jsonReponse = QJsonDocument::fromJson(reponse);
+        jsonReponse.toVariant().toString();
+         reply->deleteLater();
+         QJsonObject jsonObject = jsonReponse.object();
+         QJsonArray listArray = jsonObject["list"].toArray();
+         QSplineSeries * series = new QSplineSeries();
+         series->setName("Relevés de températures toutes les 3 heures");
+         for (int var = 0, h=0; var < listArray.count(); ++var ,h+=3)
+         {
+             QJsonObject objList = listArray[var].toObject();
+             QJsonObject objMain = objList["main"].toObject();
+             // qDebug() << "temp : " << objMain["temp"].toDouble();
+             QJsonValue prevision = (objMain["temp"]);
+             qreal valX = static_cast<qreal>(h);
+             qreal valY = static_cast<qreal>(objMain["temp"].toDouble());
+             qDebug() << "Point : " << valX << " " << valY;
+             series->append(valX, valY);
+         }
+
+         QChart * chart = new QChart();
+         chart->legend()->show();
+         chart->addSeries(series);
+         chart->setTitle("Prévisions météorologiques pour les 5 prochains jours :");
+         chart->createDefaultAxes();
+         chart->axes(Qt::Vertical).first()->setRange(-10, 30);
+         chart->axisX()->hide();
+
+         QCategoryAxis * axisX = new QCategoryAxis();
+         QDate today = QDate::currentDate();
+
+         QString jour = today.toString("dddd dd MMMM yyyy");
+         qDebug() << jour;
+         axisX->append(jour, 24);
+
+         QString jour2 = today.addDays(1).toString("dddd dd MMMM yyyy");
+         qDebug() << jour2;
+         axisX->append(jour2, 48);
+
+         QString jour3 = today.addDays(2).toString("dddd dd MMMM yyyy");
+         qDebug() << jour3;
+         axisX->append(jour3, 72);
+
+         QString jour4 = today.addDays(3).toString("dddd dd MMMM yyyy");
+         qDebug() << jour4;
+         axisX->append(jour4, 96);
+
+         QString jour5 = today.addDays(4).toString("dddd dd MMMM yyyy");
+         qDebug() << jour5;
+         axisX->append(jour5, 120);
+
+         axisX->setRange(0, 120);
+
+         chart->addAxis(axisX, Qt::AlignBottom);
+         series->attachAxis(axisX);
+
+         QChartView * chartView = new QChartView(chart);
+         chartView->setRenderHint(QPainter::Antialiasing);
+         ui->verticalLayout->takeAt(0);
+         ui->verticalLayout->addWidget(chartView);
+*/
+
 
 }
 
@@ -359,27 +256,92 @@ void MainWindow::on_cboPolice_currentFontChanged(const QFont &f)
 }
 
 
-
-
-void MainWindow::on_rbJour_clicked()
-{
+void MainWindow::setJour() {
+    ui->lblDate->setStyleSheet("color: black;");
+    ui->lblExt->setStyleSheet("color: black;");
+    ui->lblTitre->setStyleSheet("color: black;");
+    ui->lblTemp->setStyleSheet("color: black;");
+    ui->lblPara->setStyleSheet("color: black;");
+    ui->lblPres->setStyleSheet("color: black;");
+    ui->lblInt->setStyleSheet("color: black;");
+    ui->lblHum->setStyleSheet("color: black;");
+    ui->lblHeure->setStyleSheet("color: black;");
+    ui->lblHumExt->setStyleSheet("color: black;");
+    ui->lblDiff->setStyleSheet("color: black;");
+    ui->lblTempExt->setStyleSheet("color: black;");
+    ui->lblTempMaxExt->setStyleSheet("color: black;");
+    ui->lblTempMinExt->setStyleSheet("color: black;");
+    ui->lblVille->setStyleSheet("color: black;");
+    ui->lblUnitTemp->setStyleSheet("color: black;");
+    ui->lblUnitTempExt->setStyleSheet("color: black;");
+    ui->lblUnitTempMaxExt->setStyleSheet("color: black;");
+    ui->lblUnitTempMinExt->setStyleSheet("color: black;");
+    ui->lblPresExt->setStyleSheet("color: black;");
+    ui->lblChoixVille->setStyleSheet("color: black;");
+    ui->lblChoixPolice->setStyleSheet("color: black;");
+    ui->rbH12->setStyleSheet("color: black;");
+    ui->rbH24->setStyleSheet("color: black;");
+    ui->rbCel->setStyleSheet("color: black;");
+    ui->rbFah->setStyleSheet("color: black;");
+    ui->rbFra->setStyleSheet("color: black;");
+    ui->rbEng->setStyleSheet("color: black;");
+    ui->rbJour->setStyleSheet("color: black;");
+    ui->rbNuit->setStyleSheet("color: black;");
 
     QPixmap bkgnd(":/bg/jour.jpg");
         bkgnd = bkgnd.scaled(this->size(), Qt::IgnoreAspectRatio);
         QPalette palette;
         palette.setBrush(QPalette::Background, bkgnd);
         this->setPalette(palette);
+        this->setStyleSheet("color: black;");
+}
+
+
+void MainWindow::on_rbJour_clicked()
+{
+
+    setJour();
 }
 
 void MainWindow::on_rbNuit_clicked()
 {
 
-   /* QPixmap bkgnd(":/bg/nuit.jpeg");
+    ui->lblDate->setStyleSheet("color: white;");
+    ui->lblExt->setStyleSheet("color: white;");
+    ui->lblTitre->setStyleSheet("color: white;");
+    ui->lblTemp->setStyleSheet("color: white;");
+    ui->lblPara->setStyleSheet("color: white;");
+    ui->lblPres->setStyleSheet("color: white;");
+    ui->lblInt->setStyleSheet("color: white;");
+    ui->lblHum->setStyleSheet("color: white;");
+    ui->lblHeure->setStyleSheet("color: white;");
+    ui->lblHumExt->setStyleSheet("color: white;");
+    ui->lblDiff->setStyleSheet("color: white;");
+    ui->lblTempExt->setStyleSheet("color: white;");
+    ui->lblTempMaxExt->setStyleSheet("color: white;");
+    ui->lblTempMinExt->setStyleSheet("color: white;");
+    ui->lblVille->setStyleSheet("color: white;");
+    ui->lblUnitTemp->setStyleSheet("color: white;");
+    ui->lblUnitTempExt->setStyleSheet("color: white;");
+    ui->lblUnitTempMaxExt->setStyleSheet("color: white;");
+    ui->lblUnitTempMinExt->setStyleSheet("color: white;");
+    ui->lblPresExt->setStyleSheet("color: white;");
+    ui->lblChoixVille->setStyleSheet("color: white;");
+    ui->lblChoixPolice->setStyleSheet("color: white;");
+    ui->rbH12->setStyleSheet("color: white;");
+    ui->rbH24->setStyleSheet("color: white;");
+    ui->rbCel->setStyleSheet("color: white;");
+    ui->rbFah->setStyleSheet("color: white;");
+    ui->rbFra->setStyleSheet("color: white;");
+    ui->rbEng->setStyleSheet("color: white;");
+    ui->rbJour->setStyleSheet("color: white;");
+    ui->rbNuit->setStyleSheet("color: white;");
+    QPixmap bkgnd(":/bg/nuit.jpeg");
         bkgnd = bkgnd.scaled(this->size(), Qt::IgnoreAspectRatio);
         QPalette palette;
         palette.setBrush(QPalette::Background, bkgnd);
-        this->setPalette(palette);*/
-    this->setStyleSheet("color-background:black");
+        this->setPalette(palette);
+
 
 }
 

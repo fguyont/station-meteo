@@ -45,6 +45,8 @@ private slots:
 
     void update();
 
+    void setJour();
+
 private:
     Ui::MainWindow *ui;
 };

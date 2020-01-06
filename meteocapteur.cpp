@@ -1,3 +1,5 @@
+
+
 #include "meteocapteur.h"
 #include <QDebug>
 #include <QTimer>
@@ -189,26 +191,8 @@ MeteoCapteur::MeteoCapteur()
         }
 
 
-
-        //qDebug() << "°C" <<  cTemp;
-
-        // Output data to screen
-        /*printf("Temperature in Celsius : %.2f C \n", );
-        printf("Temperature in Fahrenheit : %.2f F \n", fTemp);
-        printf("Pressure : %.2f hPa \n", pressure);
-        printf("Relative Humidity : %.2f RH \n", humidity);*/
-
-
-
-
-
 }
 
-void MeteoCapteur::initMesures()
-{
-
-
-}
 
 float MeteoCapteur::getCTemp()
 {
@@ -229,4 +213,5 @@ float MeteoCapteur::getHumidity()
 {
     return this->humidity;
 }
+
 
